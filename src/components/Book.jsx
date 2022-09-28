@@ -8,10 +8,6 @@ function Book({ title, author }) {
       <div className="book-infos">
         <h3 className="book-title">{title}</h3>
         <h4 className="book-author">{author}</h4>
-        <div className="branchs-infos">
-          <div className="branch">Masina : 5</div>
-          <div className="branch">Gombe : 10</div>
-        </div>
       </div>
     </Container>
   );
@@ -22,7 +18,7 @@ export default Book;
 const Container = styled.div`
   min-width: 200px;
   width: 200px;
-  min-height: 250px;
+  min-height: 200px;
   border-radius: 6px;
   padding: 10px;
   display: flex;
