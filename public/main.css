@@ -1,0 +1,54 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea {
+  all: unset;
+}
+
+button {
+  cursor: pointer;
+}
+
+.btn {
+  padding: 5px 8px;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: bold;
+  border: 1px solid #f96666;
+  transition: 0.5s;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.btn-primary {
+  background-color: #f96666;
+  color: white;
+}
+
+.btn-primary:hover {
+  color: #f96666;
+  background-color: transparent;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #f96666;
+}
+
+.btn-secondary:hover {
+  background-color: #f96666;
+  color: white;
+}
