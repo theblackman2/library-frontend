@@ -1,35 +1,26 @@
-import ReactPaginate from "react-paginate";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import Book from "../components/Book";
 import App from "../Layouts/App";
 import Loader from "./../components/Loader";
+import Pagination from "../components/Pagination";
 const axios = require("axios").default;
 
 function Books() {
   const [searchTerm, setSearchTerm] = useState("");
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [currentItems, setCurrentItems] = useState(null);
-  const [pageCount, setPageCount] = useState(0);
-  const [itemOffset, setItemOffset] = useState(0);
+  const [searchItems, setSearchItems] = useState([]);
+  const [filtering, setFiltering] = useState(false);
+
+  const searchBooks = (term) => {
+    const records = books.filter((book) =>
+      book.title.toLowerCase().includes(term.toLowerCase())
+    );
+    setSearchItems(records);
+    setFiltering(true);
+  };
 
   const itemsPerPage = 20;
-
-  useEffect(() => {
-    const endOffset = itemOffset + itemsPerPage;
-    setCurrentItems(books.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(books.length / itemsPerPage));
-  }, [itemOffset, itemsPerPage, books]);
-
-  const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % books.length;
-    setItemOffset(newOffset);
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
 
   useEffect(() => {
     const api = process.env.REACT_APP_API;
@@ -47,6 +38,17 @@ function Books() {
       <div className="page-header">
         <h2 className="page-title">All books</h2>
         <div className="page-form">
+          {filtering && (
+            <button
+              onClick={() => {
+                setFiltering(false);
+                setSearchTerm("");
+              }}
+              className="btn btn-danger"
+            >
+              Close
+            </button>
+          )}
           <input
             placeholder="Enter a term"
             className="form-control"
@@ -54,26 +56,18 @@ function Books() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <button className="btn btn-secondary">Search</button>
+          <button
+            onClick={() => searchBooks(searchTerm)}
+            className="btn btn-secondary"
+          >
+            Search
+          </button>
         </div>
       </div>
       <div className="page-body">
-        <div className="books">
-          {currentItems.map((book, index) => {
-            const title = book.title;
-            const author = `${book.author_firstaname} ${book.author_lastname}`;
-            return <Book key={index} title={title} author={author} />;
-          })}
-        </div>
-        <ReactPaginate
-          className="pagin"
-          breakLabel="..."
-          nextLabel="next"
-          onPageChange={handlePageClick}
-          pageRangeDisplayed={5}
-          pageCount={pageCount}
-          previousLabel="previous"
-          renderOnZeroPageCount={null}
+        <Pagination
+          items={filtering ? searchItems : books}
+          itemsPerPage={itemsPerPage}
         />
       </div>
     </Container>
@@ -97,7 +91,7 @@ const Container = styled.div`
   }
 
   .page-body {
-    .books {
+    /* .books {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
@@ -135,6 +129,6 @@ const Container = styled.div`
       li {
         list-style: none;
       }
-    }
+    } */
   }
 `;
