@@ -37,5 +37,14 @@ const Container = styled.div`
     width: 100%;
     flex-direction: column;
     gap: 0.3rem;
+
+    .book-title {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .book-author {
+      font-size: 16px;
+    }
   }
 `;

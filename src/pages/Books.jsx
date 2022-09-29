@@ -1,12 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Book from "../components/Book";
 import App from "../Layouts/App";
+import Loader from "./../components/Loader";
+const axios = require("axios").default;
 
 function Books() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const page = (
+  useEffect(() => {
+    const api = process.env.REACT_APP_API;
+    const books = axios.get(`${api}/books`);
+    books
+      .then((data) => setBooks(data.data))
+      .then(() => setLoading(false))
+      .catch((err) => console.log(err));
+  }, []);
+
+  const page = loading ? (
+    <Loader />
+  ) : (
     <Container>
       <div className="page-header">
         <h2 className="page-title">All books</h2>
@@ -23,23 +38,11 @@ function Books() {
       </div>
       <div className="page-body">
         <div className="books">
-          <Book title={"Hello word"} author={"Mastery JS"} />
-          <Book title={"Hello word"} author={"Mastery JS"} />
-          <Book title={"Hello word"} author={"Mastery JS"} />
-          <Book title={"Hello word"} author={"Mastery JS"} />
-          <Book title={"Hello word"} author={"Mastery JS"} />
-          <Book title={"Hello word"} author={"Mastery JS"} />
-          <Book title={"Hello word"} author={"Mastery JS"} />
-          <Book title={"Hello word"} author={"Mastery JS"} />
-          <Book title={"Hello word"} author={"Mastery JS"} />
-          <Book title={"Hello word"} author={"Mastery JS"} />
-          <Book title={"Hello word"} author={"Mastery JS"} />
-          <Book title={"Hello word"} author={"Mastery JS"} />
-          <Book title={"Hello word"} author={"Mastery JS"} />
-          <Book title={"Hello word"} author={"Mastery JS"} />
-          <Book title={"Hello word"} author={"Mastery JS"} />
-          <Book title={"Hello word"} author={"Mastery JS"} />
-          <Book title={"Hello word"} author={"Mastery JS"} />
+          {books.map((book, index) => {
+            const title = book.title;
+            const author = `${book.author_firstaname} ${book.author_lastname}`;
+            return <Book key={index} title={title} author={author} />;
+          })}
         </div>
       </div>
     </Container>
