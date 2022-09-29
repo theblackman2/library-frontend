@@ -1,3 +1,4 @@
+import ReactPaginate from "react-paginate";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Book from "../components/Book";
@@ -9,6 +10,26 @@ function Books() {
   const [searchTerm, setSearchTerm] = useState("");
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentItems, setCurrentItems] = useState(null);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+
+  const itemsPerPage = 20;
+
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(books.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(books.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, books]);
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % books.length;
+    setItemOffset(newOffset);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   useEffect(() => {
     const api = process.env.REACT_APP_API;
@@ -38,12 +59,22 @@ function Books() {
       </div>
       <div className="page-body">
         <div className="books">
-          {books.map((book, index) => {
+          {currentItems.map((book, index) => {
             const title = book.title;
             const author = `${book.author_firstaname} ${book.author_lastname}`;
             return <Book key={index} title={title} author={author} />;
           })}
         </div>
+        <ReactPaginate
+          className="pagin"
+          breakLabel="..."
+          nextLabel="next"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={5}
+          pageCount={pageCount}
+          previousLabel="previous"
+          renderOnZeroPageCount={null}
+        />
       </div>
     </Container>
   );
@@ -59,6 +90,10 @@ const Container = styled.div`
     align-items: center;
     justify-content: space-between;
     margin-bottom: 20px;
+
+    .page-form {
+      display: flex;
+    }
   }
 
   .page-body {
@@ -68,6 +103,38 @@ const Container = styled.div`
       align-items: center;
       justify-content: center;
       gap: 30px;
+    }
+
+    .pagin {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      justify-content: center;
+      margin-top: 20px;
+
+      .previous,
+      .next {
+        color: white;
+        padding: 3px 6px;
+        border-radius: 3px;
+        width: 80px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .previous {
+        background-color: #5c636a;
+      }
+
+      .next {
+        background-color: #0b5ed7;
+      }
+
+      li {
+        list-style: none;
+      }
     }
   }
 `;
