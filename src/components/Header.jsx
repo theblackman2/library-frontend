@@ -14,14 +14,11 @@ function Header() {
         <NavLink className="link" to="/books">
           Books
         </NavLink>
-        <NavLink className="link" to="/loans">
-          Loans
-        </NavLink>
-        <NavLink className="link" to="/branchs">
-          Library branchs
-        </NavLink>
         <NavLink className="link" to="/authors">
           Authors
+        </NavLink>
+        <NavLink className="link" to="/publishers">
+          Publishers
         </NavLink>
         <button className="btn btn-primary">Connexion</button>
       </nav>

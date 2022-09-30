@@ -23,13 +23,15 @@ function Pagination({ items, itemsPerPage }) {
       behavior: "smooth",
     });
   };
+
   return items.length > 0 ? (
     <Container>
       <div className="books">
         {currentItems.map((book, index) => {
+          const id = book.id;
           const title = book.title;
           const author = `${book.author_firstaname} ${book.author_lastname}`;
-          return <Book key={index} title={title} author={author} />;
+          return <Book key={index} title={title} author={author} id={id} />;
         })}
       </div>
       <ReactPaginate
