@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import App from "../Layouts/App";
 import Loader from "./../components/Loader";
@@ -12,13 +12,32 @@ function Books() {
   const [searchItems, setSearchItems] = useState([]);
   const [filtering, setFiltering] = useState(false);
 
-  const searchBooks = (term) => {
-    const records = books.filter((book) =>
-      book.title.toLowerCase().includes(term.toLowerCase())
-    );
-    setSearchItems(records);
-    setFiltering(true);
-  };
+  const searchBooks = useCallback(
+    (term) => {
+      const records = books.filter((book) =>
+        book.title.toLowerCase().includes(term.toLowerCase())
+      );
+      setSearchItems(records);
+      setFiltering(true);
+    },
+    [books]
+  );
+
+  //handle enter click
+  useEffect(() => {
+    const listener = (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        if (searchTerm.length > 0) searchBooks(searchTerm);
+      }
+    };
+
+    document.addEventListener("keydown", listener);
+
+    return () => {
+      document.removeEventListener("keydown", listener);
+    };
+  }, [searchTerm, searchBooks]);
 
   const itemsPerPage = 20;
 
@@ -88,47 +107,5 @@ const Container = styled.div`
     .page-form {
       display: flex;
     }
-  }
-
-  .page-body {
-    /* .books {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 30px;
-    }
-
-    .pagin {
-      display: flex;
-      gap: 15px;
-      align-items: center;
-      justify-content: center;
-      margin-top: 20px;
-
-      .previous,
-      .next {
-        color: white;
-        padding: 3px 6px;
-        border-radius: 3px;
-        width: 80px;
-        font-weight: bold;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .previous {
-        background-color: #5c636a;
-      }
-
-      .next {
-        background-color: #0b5ed7;
-      }
-
-      li {
-        list-style: none;
-      }
-    } */
   }
 `;

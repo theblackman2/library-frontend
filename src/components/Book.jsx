@@ -6,7 +6,10 @@ function Book({ title, author }) {
     <Container>
       <img src="https://picsum.photos/180" alt="Book" className="book-img" />
       <div className="book-infos">
-        <h3 className="book-title">{title}</h3>
+        <h3 className="book-title">
+          {title.slice(0, 20)}
+          {title.length > 20 && <span>...</span>}
+        </h3>
         <h4 className="book-author">{author}</h4>
       </div>
     </Container>
@@ -18,7 +21,7 @@ export default Book;
 const Container = styled.div`
   min-width: 200px;
   width: 200px;
-  min-height: 200px;
+  min-height: 310px;
   border-radius: 6px;
   padding: 10px;
   display: flex;
