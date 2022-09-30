@@ -1,15 +1,18 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-function Author({ name }) {
+function Author({ name, id }) {
   return (
     <Container>
-      <img
-        src="https://picsum.photos/130"
-        alt={`${name} profile`}
-        className="author-img"
-      />
+      <div className="author-img">
+        <Link to={`/authors/${id}`}>
+          <img src="https://picsum.photos/130" alt={`${name} profile`} />
+        </Link>
+      </div>
       <div className="author-infos">
-        <h4 className="author-name">{name}</h4>
+        <Link to={`/authors/${id}`}>
+          <h4 className="author-name">{name}</h4>
+        </Link>
       </div>
     </Container>
   );
@@ -25,6 +28,7 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+  align-items: center;
   border: 1px solid #ccc;
 
   .author-infos {

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import App from "./../Layouts/App";
 import Loader from "../components/Loader";
@@ -93,20 +93,24 @@ function Book() {
         <div className="book-infos">
           <h2 className="book-title">{book.title}</h2>
           <div className="others-infos">
-            <div className="infos">
-              <img
-                alt="Author avatar"
-                src="https://img.icons8.com/fluency/48/000000/writer-male.png"
-              />{" "}
-              <span>{`${book.author_firstaname} ${book.author_lastname}`}</span>
-            </div>
-            <div className="infos">
-              <img
-                alt="Publisher avatar"
-                src="https://img.icons8.com/external-photo3ideastudio-lineal-color-photo3ideastudio/64/000000/external-author-online-business-photo3ideastudio-lineal-color-photo3ideastudio.png"
-              />
-              <span>{book.publisher_name}</span>
-            </div>
+            <Link to={`/authors/${book.author_id}`}>
+              <div className="infos">
+                <img
+                  alt="Author avatar"
+                  src="https://img.icons8.com/fluency/48/000000/writer-male.png"
+                />{" "}
+                <span>{`${book.author_firstaname} ${book.author_lastname}`}</span>
+              </div>
+            </Link>
+            <Link to={`/publishers/${book.publisher_id}`}>
+              <div className="infos">
+                <img
+                  alt="Publisher avatar"
+                  src="https://img.icons8.com/external-photo3ideastudio-lineal-color-photo3ideastudio/64/000000/external-author-online-business-photo3ideastudio-lineal-color-photo3ideastudio.png"
+                />
+                <span>{book.publisher_name}</span>
+              </div>
+            </Link>
           </div>
         </div>
         <div className="comments-section">

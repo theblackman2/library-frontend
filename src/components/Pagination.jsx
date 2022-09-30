@@ -33,7 +33,20 @@ function Pagination({ items, itemsPerPage, type }) {
             const id = book.id;
             const title = book.title;
             const author = `${book.author_firstaname} ${book.author_lastname}`;
-            return <Book key={index} title={title} author={author} id={id} />;
+            const publisher = book.publisher_name;
+            const authorId = book.author_id;
+            const publisherId = book.publisher_id;
+            return (
+              <Book
+                key={index}
+                publisher={publisher}
+                authorId={authorId}
+                publisherId={publisherId}
+                title={title}
+                author={author}
+                id={id}
+              />
+            );
           })}
         </div>
       )}
@@ -41,7 +54,8 @@ function Pagination({ items, itemsPerPage, type }) {
         <div className="authors">
           {currentItems.map((item, index) => {
             const name = `${item.first_name} ${item.last_name}`;
-            return <Author key={index} name={name} />;
+            const id = item.id;
+            return <Author key={index} name={name} id={id} />;
           })}
         </div>
       )}

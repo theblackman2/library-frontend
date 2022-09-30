@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-function Book({ title, author, id }) {
+function Book({ title, author, publisher, publisherId, id, authorId }) {
   return (
     <Container>
       <Link to={`/books/${id}`}>
@@ -19,7 +19,24 @@ function Book({ title, author, id }) {
             {title.length > 20 && <span>...</span>}
           </h3>
         </Link>
-        <h4 className="book-author">{author}</h4>
+        <Link to={`/authors/${authorId}`}>
+          <h4 className="book-author">
+            <img
+              alt={`${author} avatart`}
+              src="https://img.icons8.com/external-flaticons-flat-flat-icons/64/000000/external-author-copyright-law-flaticons-flat-flat-icons.png"
+            />
+            {author}
+          </h4>
+        </Link>
+        <Link to={`/publishers/${publisherId}`}>
+          <h5 className="book-publisher">
+            <img
+              src="https://img.icons8.com/external-photo3ideastudio-gradient-photo3ideastudio/64/000000/external-author-online-business-photo3ideastudio-gradient-photo3ideastudio.png"
+              alt={`${publisher} avatar`}
+            />
+            {publisher}
+          </h5>
+        </Link>
       </div>
     </Container>
   );
@@ -30,7 +47,7 @@ export default Book;
 const Container = styled.div`
   min-width: 200px;
   width: 200px;
-  min-height: 310px;
+  min-height: 370px;
   border-radius: 6px;
   padding: 10px;
   display: flex;
@@ -56,7 +73,25 @@ const Container = styled.div`
     }
 
     .book-author {
-      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      img {
+        width: 30px;
+        height: auto;
+      }
+      font-size: 14px;
+    }
+
+    .book-publisher {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      img {
+        width: 30px;
+        height: auto;
+      }
+      font-size: 12px;
     }
   }
 `;
