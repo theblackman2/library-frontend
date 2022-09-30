@@ -3,8 +3,9 @@ import React from "react";
 import styled from "styled-components";
 import Book from "./Book";
 import { useState, useEffect } from "react";
+import Author from "./Author";
 
-function Pagination({ items, itemsPerPage }) {
+function Pagination({ items, itemsPerPage, type }) {
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
@@ -26,14 +27,24 @@ function Pagination({ items, itemsPerPage }) {
 
   return items.length > 0 ? (
     <Container>
-      <div className="books">
-        {currentItems.map((book, index) => {
-          const id = book.id;
-          const title = book.title;
-          const author = `${book.author_firstaname} ${book.author_lastname}`;
-          return <Book key={index} title={title} author={author} id={id} />;
-        })}
-      </div>
+      {type === "books" && (
+        <div className="books">
+          {currentItems.map((book, index) => {
+            const id = book.id;
+            const title = book.title;
+            const author = `${book.author_firstaname} ${book.author_lastname}`;
+            return <Book key={index} title={title} author={author} id={id} />;
+          })}
+        </div>
+      )}
+      {type === "authors" && (
+        <div className="authors">
+          {currentItems.map((item, index) => {
+            const name = `${item.first_name} ${item.last_name}`;
+            return <Author key={index} name={name} />;
+          })}
+        </div>
+      )}
       <ReactPaginate
         className="pagin"
         breakLabel="..."

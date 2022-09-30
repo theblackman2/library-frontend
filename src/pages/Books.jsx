@@ -87,6 +87,7 @@ function Books() {
         <Pagination
           items={filtering ? searchItems : books}
           itemsPerPage={itemsPerPage}
+          type="books"
         />
       </div>
     </Container>

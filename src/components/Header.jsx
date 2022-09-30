@@ -8,9 +8,6 @@ function Header() {
         <Link to="/">LM</Link>
       </h2>
       <nav className="nav">
-        <NavLink className="link" to="/">
-          Home
-        </NavLink>
         <NavLink className="link" to="/books">
           Books
         </NavLink>

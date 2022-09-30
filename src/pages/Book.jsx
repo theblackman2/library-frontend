@@ -15,6 +15,20 @@ function Book() {
   const [comment, setComment] = useState("");
   const [emptyComment, setEmptyComment] = useState(false);
   const [commentError, setCommentError] = useState(false);
+  const [commentPosted, setCommentPosted] = useState(false);
+
+  // Unmunt messages after 3secs
+  useEffect(() => {
+    const time = setTimeout(() => {
+      if (emptyComment) setEmptyComment(false);
+      if (commentError) setCommentError(false);
+      if (commentPosted) setCommentPosted(false);
+    }, 5000);
+
+    return () => {
+      clearTimeout(time);
+    };
+  }, [commentError, emptyComment, commentPosted]);
 
   // Get book comments
   const getComments = useCallback(() => {
@@ -22,7 +36,7 @@ function Book() {
     const api = process.env.REACT_APP_API;
     const comments = axios.get(`${api}/comments/${id}`);
     comments
-      .then((data) => setComments(data.data))
+      .then((data) => setComments(data.data.reverse()))
       .then(() => setLoadingComments(false))
       .catch((err) => console.log(err));
   }, [id]);
@@ -56,6 +70,7 @@ function Book() {
       })
         .then((res) => {
           if (res.data.type === "Success") {
+            setCommentPosted(true);
             setCommentError(false);
             getComments();
             setComment("");
@@ -107,6 +122,9 @@ function Book() {
                 <div className="alert alert-danger">
                   Une erreur s'est produite, veillez réessayer
                 </div>
+              )}
+              {commentPosted && (
+                <div className="alert alert-success">Comment posted!</div>
               )}
               <textarea
                 name="comment"
@@ -181,13 +199,13 @@ const Container = styled.div`
       display: flex;
       flex-direction: column;
       gap: 20px;
-      width: calc(100% - 400px);
+      width: calc(100% - 350px);
     }
 
     .comments-form {
       position: sticky;
       top: 100px;
-      width: 400px;
+      width: 350px;
       height: fit-content;
 
       .form {

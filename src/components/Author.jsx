@@ -9,7 +9,7 @@ function Author({ name }) {
         className="author-img"
       />
       <div className="author-infos">
-        <h3 className="author-name">{name}</h3>
+        <h4 className="author-name">{name}</h4>
       </div>
     </Container>
   );
@@ -26,4 +26,10 @@ const Container = styled.div`
   justify-content: space-between;
   flex-direction: column;
   border: 1px solid #ccc;
+
+  .author-infos {
+    .author-name {
+      font-size: 18px;
+    }
+  }
 `;
