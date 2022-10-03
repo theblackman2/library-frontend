@@ -5,7 +5,7 @@ import Book from "./Book";
 import { useState, useEffect } from "react";
 import Author from "./Author";
 
-function Pagination({ items, itemsPerPage, type }) {
+const Pagination = ({ items, itemsPerPage, type }) => {
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
@@ -73,7 +73,7 @@ function Pagination({ items, itemsPerPage, type }) {
   ) : (
     <div></div>
   );
-}
+};
 
 export default Pagination;
 

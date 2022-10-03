@@ -4,6 +4,8 @@ import Authors from "./pages/Authors";
 import Book from "./pages/Book";
 import Books from "./pages/Books";
 import Home from "./pages/Home";
+import Publisher from "./pages/Publisher";
+import Publishers from "./pages/Publishers";
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
         <Route path="/books/:id" element={<Book />} />
         <Route path="/authors" element={<Authors />} />
         <Route path="/authors/:id" element={<Author />} />
+        <Route path="/publishers" element={<Publishers />} />
+        <Route path="/publishers/:id" element={<Publisher />} />
       </Routes>
     </BrowserRouter>
   );
