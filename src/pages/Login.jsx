@@ -1,17 +1,13 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import LoginForm from "../components/Login";
 
 const Login = () => {
   const [logingIn, setLoginIn] = useState(true);
-  const [loginErrors, setLoginErrors] = useState([]);
   const [registerErrors, setRegisterErrors] = useState([]);
-  const [loginInfos, setLoginInfos] = useState({
-    email: "",
-    password: "",
-  });
   const [registerInfos, setRegisterInfos] = useState({
-    user_name: "",
+    name: "",
     email: "",
     password: "",
     confirm_password: "",
@@ -23,18 +19,12 @@ const Login = () => {
     setRegisterInfos({ ...registerInfos, [name]: value });
   };
 
-  const handleLoginInfosChanges = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setLoginInfos({ ...loginInfos, [name]: value });
-  };
-
-  const handleLogin = (e) => {
-    setLoginErrors([]);
+  const handleRegister = (e) => {
+    setRegisterErrors([]);
     e.preventDefault();
-    Object.keys(loginInfos).forEach((key) => {
-      if (loginInfos[key].length <= 0)
-        setLoginErrors((prevState) => [
+    Object.keys(registerInfos).forEach((key) => {
+      if (!registerInfos[key])
+        setRegisterErrors((prevState) => [
           ...prevState,
           `The field ${key} is required`,
         ]);
@@ -54,111 +44,21 @@ const Login = () => {
           </button>
         </div>
         {logingIn ? (
-          <form onSubmit={handleLogin} className="form">
+          <LoginForm />
+        ) : (
+          <form onSubmit={handleRegister} className="form">
             <div className="errors">
-              {loginErrors.map((error, index) => (
-                <p key={index} className="error">
+              {registerErrors.map((error, index) => (
+                <p className="error" key={index}>
                   *{error}
                 </p>
               ))}
             </div>
             <div className="form-group">
               <label htmlFor="email">
-                Email <sup>*</sup>{" "}
+                Name <sup>*</sup>
               </label>
-              <input
-                onChange={handleLoginInfosChanges}
-                id="email"
-                type="email"
-                placeholder="example@test.com"
-                value={loginInfos.name}
-                name="email"
-                className="form-control"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">
-                Password <sup>*</sup>{" "}
-              </label>
-              <input
-                className="form-control"
-                placeholder="Your password"
-                type="password"
-                name="password"
-                id="password"
-                value={loginInfos.password}
-                onChange={handleLoginInfosChanges}
-              />
-            </div>
-            <div className="btns">
-              <button type="reset" className="btn btn-danger">
-                Clear
-              </button>
-              <button type="submit" className="btn btn-primary">
-                Submit
-              </button>
-            </div>
-          </form>
-        ) : (
-          <form className="form">
-            {registerErrors.map((error, index) => (
-              <p className="error" key={index}>
-                *{error}
-              </p>
-            ))}
-            <div className="form-group">
-              <label htmlFor="name">Name</label>
-              <input
-                className="form-control"
-                placeholder="Ex: John Doe"
-                type="text"
-                name="name"
-                id="name"
-                value={registerInfos.name}
-                onChange={handleRegisterInfosChanges}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="email">
-                Email <sup>*</sup>
-              </label>
-              <input
-                id="email"
-                type="email"
-                placeholder="example@test.com"
-                className="form-control"
-                name="email"
-                value={registerInfos.email}
-                onChange={handleRegisterInfosChanges}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">
-                Password <sup>*</sup>
-              </label>
-              <input
-                className="form-control"
-                placeholder="Your password"
-                type="password"
-                name="password"
-                id="password"
-                value={registerInfos.password}
-                onChange={handleRegisterInfosChanges}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="confirm_password">
-                Confirm password <sup>*</sup>
-              </label>
-              <input
-                className="form-control"
-                placeholder="Retype your password"
-                type="password"
-                name="confirm_password"
-                id="confirm_password"
-                value={registerInfos.confirm_password}
-                onChange={handleRegisterInfosChanges}
-              />
+              <input type="text" />
             </div>
             <div className="btns">
               <button type="reset" className="btn btn-danger">
@@ -238,9 +138,17 @@ const Container = styled.div`
       flex-direction: column;
       gap: 1rem;
 
-      .error {
-        font-size: 14px;
-        color: red;
+      .errors {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .error {
+          font-size: 12px;
+          padding: 0;
+          margin: 0;
+          color: red;
+        }
       }
 
       .btns {
