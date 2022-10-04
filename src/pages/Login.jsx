@@ -2,34 +2,10 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import LoginForm from "../components/Login";
+import RegisterForm from "../components/RegisterForm";
 
 const Login = () => {
   const [logingIn, setLoginIn] = useState(true);
-  const [registerErrors, setRegisterErrors] = useState([]);
-  const [registerInfos, setRegisterInfos] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirm_password: "",
-  });
-
-  const handleRegisterInfosChanges = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setRegisterInfos({ ...registerInfos, [name]: value });
-  };
-
-  const handleRegister = (e) => {
-    setRegisterErrors([]);
-    e.preventDefault();
-    Object.keys(registerInfos).forEach((key) => {
-      if (!registerInfos[key])
-        setRegisterErrors((prevState) => [
-          ...prevState,
-          `The field ${key} is required`,
-        ]);
-    });
-  };
 
   return (
     <Container logingIn={logingIn}>
@@ -43,33 +19,7 @@ const Login = () => {
             Sign up
           </button>
         </div>
-        {logingIn ? (
-          <LoginForm />
-        ) : (
-          <form onSubmit={handleRegister} className="form">
-            <div className="errors">
-              {registerErrors.map((error, index) => (
-                <p className="error" key={index}>
-                  *{error}
-                </p>
-              ))}
-            </div>
-            <div className="form-group">
-              <label htmlFor="email">
-                Name <sup>*</sup>
-              </label>
-              <input type="text" />
-            </div>
-            <div className="btns">
-              <button type="reset" className="btn btn-danger">
-                Clear
-              </button>
-              <button type="submit" className="btn btn-primary">
-                Submit
-              </button>
-            </div>
-          </form>
-        )}
+        {logingIn ? <LoginForm /> : <RegisterForm />}
       </div>
     </Container>
   );
