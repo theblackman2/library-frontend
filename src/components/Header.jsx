@@ -17,7 +17,9 @@ function Header() {
         <NavLink className="link" to="/publishers">
           Publishers
         </NavLink>
-        <button className="btn btn-primary">Connexion</button>
+        <Link to={"/login"} className="btn btn-primary">
+          Login
+        </Link>
       </nav>
     </Container>
   );
